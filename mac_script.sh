@@ -17,9 +17,18 @@ brew install --cask iterm2
 brew install --cask karabiner-elements
 brew install --cask anydesk
 
-
 sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 zsh ./ohmyzsh_config.sh
 
+brew install pyenv
+brew_path='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+echo "# pyenv setting\nalias brew='$brew_path'" >> ~/.zshrc
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+
+brew install pipenv
+
+zsh ./custom_functions.sh
+
 /usr/libexec/PlistBuddy -c 'Add :LSUIElement bool true' /Applications/Hidden\ Bar.app/Contents/Info.plist
-sudo reboot
