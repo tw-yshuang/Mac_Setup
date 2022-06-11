@@ -23,10 +23,10 @@ zsh ./ohmyzsh_config.sh
 
 brew install pyenv
 brew_path='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-echo "# pyenv setting\nalias brew='$brew_path'" >> ~/.zshrc
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
-echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+echo "# pyenv setting\nalias brew='$brew_path'" >> ~/.zprofile
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zprofile
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zprofile
+echo '# pyenv setting\neval "$(pyenv init -)"' >> ~/.zshrc
 
 brew install pipenv
 

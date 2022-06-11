@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 #>            +-----------------------+
 #>            |  custom_functions.sh  |
 #>            +-----------------------+
@@ -62,7 +62,7 @@ custom_func_keyword="~/.customfunction"
 custom_func_root=~/.customfunction
 
 funcs_code_begin=($(grep -xn "^\S*(){" ./config/.customfunction)) # \S: match non-whitespace character
-funcs_code_end=($(grep -xn "}" ./config/.customfunction))
+funcs_code_end=($(grep -xn "}" ./config/.customfunction | cut -d':' -f1))
 declare -A funcs_info=([nvm]=$no_nvm [pipenv_correspond]=$no_pipenv_correspond)
 
 function Echo_Color(){
@@ -112,10 +112,10 @@ function Get_function_code(){
     declare -i key
     declare -i begin
     declare -i end
-    for key in ${!funcs_code_end[*]}; do
+    for key in $(seq 1 ${#funcs_code_end[*]}); do
         if echo ${funcs_code_begin[$key]} | grep --silent -i $1; then
             begin=$(echo ${funcs_code_begin[$key]} | cut -d ':' -f 1)-1
-            end=$(echo ${funcs_code_end[$key]} | cut -d ':' -f 1)
+            end=$(echo ${funcs_code_end[$key]})
             function_code=$(sed -n "$begin,$end p" ./config/.customfunction)
         fi
     done
@@ -162,7 +162,7 @@ if ! $no_nvm; then
     fi
 fi
 
-for key in ${!funcs_info[*]}; do
+for key in ${(@k)funcs_info}; do
     if ! ${funcs_info[$key]}; then
         if [ "$(grep "$key" $custom_func_root)" != "" ]; then
             Echo_Color y "You already have $key() in $custom_func_root."
